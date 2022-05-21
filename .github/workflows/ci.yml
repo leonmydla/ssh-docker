@@ -26,8 +26,6 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/ssh:server
-          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/ssh:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/ssh:buildcache,mode=max
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
@@ -37,5 +35,3 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/ssh:client
-          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/ssh:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/ssh:buildcache,mode=max
