@@ -22,8 +22,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          build-args:
-            MODE: server
+          build-args: MODE=server
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/ssh:server
@@ -34,8 +33,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          build-args:
-            MODE: client
+          build-args: MODE=client
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/ssh:client
