@@ -1,0 +1,14 @@
+services:
+  client:
+    image: leonmydla/ssh:client
+    build:
+      context: .
+      args:
+        MODE: client
+
+  server:
+    image: leonmydla/ssh:server
+    build:
+      context: .
+      args:
+        MODE: server

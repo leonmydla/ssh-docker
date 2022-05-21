@@ -1,0 +1,15 @@
+services:
+  server:
+    image: leonmydla/ssh:server
+    volumes:
+      - "server_config:/etc/ssh"
+
+  client:
+    image: leonmydla/ssh:client
+    volumes:
+      - "client_config:/etc/ssh"
+    command: ssh server -o StrictHostKeyChecking=no
+
+volumes:
+  server_config:
+  client_config:
