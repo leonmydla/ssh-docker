@@ -17,7 +17,6 @@ RUN mkdir --parents "$CLIENT_SSH_DIR" && \
       --uid "$CLIENT_UID" \
       --ingroup nogroup \
       --disabled-password \
-      --disabled-login \
       --no-create-home \
       --home "$CLIENT_HOME" \
       "$CLIENT_USERNAME" && \
