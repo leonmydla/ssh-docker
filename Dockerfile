@@ -12,6 +12,15 @@ VOLUME /etc/ssh
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install \
+      --no-install-recommends  \
+      --no-install-suggests \
+      --assume-yes \
+      "openssh-$MODE" \
+      gosu && \
+    rm -rf /var/lib/apt/lists/* /etc/ssh/ssh_host_*_key /etc/ssh/ssh_host_*_key.pub
+
 RUN mkdir --parents "$CLIENT_SSH_DIR" && \
     adduser --system \
       --uid "$CLIENT_UID" \
@@ -21,19 +30,12 @@ RUN mkdir --parents "$CLIENT_SSH_DIR" && \
       "$CLIENT_USERNAME" && \
     chown -R "$CLIENT_USERNAME:nogroup" "$CLIENT_HOME" && \
     chmod 755 /docker-entrypoint.sh "$CLIENT_HOME" && \
-    chmod 700 "$CLIENT_SSH_DIR" &&\
+    chmod 700 "$CLIENT_SSH_DIR" && \
+    mkdir /jail && \
+    chmod 0111 /jail && \
     mkdir /run/sshd --mode 755 && \
     touch "/mode_$MODE" && \
     chmod 000 "/mode_$MODE"
-
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install \
-      --no-install-recommends  \
-      --no-install-suggests \
-      --assume-yes \
-      "openssh-$MODE" \
-      gosu && \
-    rm -rf /var/lib/apt/lists/* /etc/ssh/ssh_host_*_key /etc/ssh/ssh_host_*_key.pub
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
