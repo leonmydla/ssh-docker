@@ -3,12 +3,16 @@ services:
     image: leonmydla/ssh:server
     volumes:
       - "server_config:/etc/ssh"
+      - "./id.pub:/home/client/.ssh/authorized_keys:ro"
 
   client:
     image: leonmydla/ssh:client
+    depends_on:
+      - server
     volumes:
       - "client_config:/etc/ssh"
-    command: ssh server -o StrictHostKeyChecking=no
+      - "./id:/home/client/.ssh/id_ed25519"
+    command: "ssh -o StrictHostKeyChecking=no server"
 
 volumes:
   server_config:
